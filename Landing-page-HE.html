@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolt Media - מצגות מקצועיות</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #8b0024, #1a0033, #001b54);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            text-align: right;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at bottom right, rgba(255, 150, 100, 0.2), transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        header {
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            width: 300px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            transition: all 0.3s ease;
+            margin-bottom: 0;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .presentation-container {
+            margin: 4rem 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .presentation-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Par défaut, ratio 16:9 pour PC */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 56.25%;
+            /* 16:9 pour PC */
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+
+        /* Sur mobile, ratio 4:3 */
+        @media (max-width: 700px) {
+            .iframe-container {
+                padding-top: 75%;
+                /* 4:3 pour mobile */
+            }
+        }
+
+        .responsive-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+
+
+        .presentation-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            gap: 0.8rem;
+        }
+
+        .presentation-tab {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .presentation-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .presentation-tab.active {
+            background: linear-gradient(135deg, #ff3c00, #ff008c);
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(255, 60, 0, 0.3);
+        }
+
+        .presentation-slide {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .presentation-slide.active {
+            display: block;
+        }
+
+        .presentation-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .presentation-description {
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+
+            to {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff3c00, #ff008c);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 60, 0, 0.4);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 60, 0, 0.6);
+        }
+
+        .cta-button:active {
+            transform: translateY(1px);
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            direction: ltr;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-icon {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #20114c, #0c0521);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, #ff3c00, #ff008c);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 60, 0, 0.3);
+            font-weight: 500;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 60, 0, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .instagram-pill {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+            direction: ltr;
+        }
+
+        .instagram-pill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(220, 39, 67, 0.6);
+        }
+
+        .instagram-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .cta-section {
+                padding: 2rem 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            main {
+                padding: 0 1.5rem 1.5rem;
+            }
+
+            .presentation-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .presentation-tab {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                flex: 1 1 auto;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7rem;
+                padding: 0 0.5rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+                padding: 0 0.5rem;
+            }
+
+            .logo {
+                width: 200px;
+            }
+
+            .whatsapp-button {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .whatsapp-icon {
+                width: 25px;
+                height: 25px;
+            }
+
+            .cta-button {
+                padding: 0.8rem 1.8rem;
+                font-size: 1.1rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .presentation-container {
+                padding: 1rem;
+                margin: 2rem 0;
+            }
+
+            .presentation-nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .presentation-tab {
+                width: 100%;
+                padding: 0.7rem 0.5rem;
+            }
+
+            .instagram-pill {
+                padding: 0.7rem 1.3rem;
+                font-size: 0.9rem;
+            }
+
+            .instagram-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            footer {
+                padding: 1.5rem 1rem;
+            }
+
+            .presentation-title {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+
+            .presentation-description {
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .iframe-container {
+                padding-bottom: 70%;
+            }
+
+            /* Personnalisation du popup Tally */
+            .tally-embed-modal {
+                backdrop-filter: blur(5px) !important;
+            }
+
+            .tally-form-container {
+                background: linear-gradient(135deg, #20114c, #0c0521) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                color: white !important;
+            }
+
+            .tally-form-title {
+                font-family: 'Heebo', sans-serif !important;
+                color: #fff !important;
+            }
+
+        }
+    </style>
+
+    <script src="https://tally.so/widgets/embed.js"></script>
+</head>
+
+<body>
+    <div class="glass-overlay"></div>
+    <header>
+        <img src="logo-revoltmedia.png" alt="Revolt Media" class="logo" id="logo">
+    </header>
+    <main>
+        <section class="intro">
+            <h1>מצגות שמובילות לתוצאות מדהימות</h1>
+            <p class="tagline">המצגות המקצועיות שלנו מתוכננות לשבות את הקהל שלך ולהפוך לידים פוטנציאליים ללקוחות. גלה את
+                הגישה הייחודית שלנו.</p>
+        </section>
+        <section class="presentation-container">
+            <div class="presentation-slide active" id="presentation-1">
+                <h3 class="presentation-title">הזדמנות השקעה בנדל׳ן</h3>
+                <p class="presentation-description">
+                    מצגת זו מציגה הזדמנויות השקעה ייחודיות בשוק הנדל״ן הנוכחי. נסקור מגמות שוק עדכניות, אזורים בעלי
+                    פוטנציאל צמיחה, אסטרטגיות להשקעה חכמה, ניתוח תשואות צפויות והצעות קונקרטיות להשקעה. מיועד למשקיעים
+                    המחפשים להרחיב את תיק הנכסים שלהם עם השקעות נדל״ן יציבות ורווחיות.</p>
+                <div class="iframe-container">
+                    <iframe src="https://gamma.app/embed/vrrktm3lhu7ym92" class="responsive-iframe" allowfullscreen
+                        allow="fullscreen" title="הזדמנות השקעה בנדל&quot;ן יוקרתי בתל אביב">
+                    </iframe>
+                </div>
+
+            </div>
+            <div class="presentation-slide" id="presentation-2">
+                <h3 class="presentation-title">ניתוח ביצועים מתקדם</h3>
+                <p class="presentation-description">ניתוח הנתונים שלנו מאפשר לך לקבל החלטות מושכלות לאופטימיזציה של
+                    התשואה על ההשקעה שלך. הצגנו נתונים מורכבים בצורה פשוטה ונגישה שכל אחד יכול להבין.</p>
+                <div class="iframe-container">
+                    <iframe src="https://gamma.app/embed/260exjsjdwhm7lu" class="responsive-iframe" allowfullscreen
+                        allow="fullscreen" title="Résidence Horizon: Luxury Oceanfront Living">
+                    </iframe>
+                </div>
+            </div>
+            <div class="presentation-slide" id="presentation-3">
+                <h3 class="presentation-title">הזדמנות השקעה בירושלים: דירת בוטיק למכירה</h3>
+                <p class="presentation-description">פרזנטציה מושלמת לנכסי נדל״ן יוקרתיים, עם דגש על הדמיות מרשימות
+                    ופירוט מדויק של יתרונות ההשקעה. מיועדת למשקיעים ורוכשים פוטנציאליים.</p>
+                <div class="iframe-container">
+                    <iframe src="https://gamma.app/embed/7hq9cel8rxlj20l" class="responsive-iframe" allowfullscreen
+                        allow="fullscreen" title="הזדמנות השקעה בירושלים: דירת בוטיק למכירה">
+                    </iframe>
+                </div>
+            </div>
+            <div class="presentation-slide" id="presentation-4">
+                <h3 class="presentation-title">תכנון אסטרטגי לפרויקטים בנדל״ן</h3>
+                <p class="presentation-description">העיצובים המרהיבים והמסרים המשכנעים שלנו מבדילים אותך מהמתחרים
+                    ומחזקים את תדמית המותג שלך. מצגת זו אידיאלית ליזמים ומשקיעים בתחום הנדל״ן.</p>
+                <div class="iframe-container">
+                    <iframe src="https://gamma.app/embed/visb9yu54t5tkrf" class="responsive-iframe" allowfullscreen
+                        allow="fullscreen" title="Strategic Real Estate Development Planning">
+                    </iframe>
+                </div>
+            </div>
+            <div class="presentation-nav">
+                <div class="presentation-tab active" data-target="presentation-1">הזדמנות השקעה בנדל׳ן</div>
+                <div class="presentation-tab" data-target="presentation-2">ניתוח ביצועים</div>
+                <div class="presentation-tab" data-target="presentation-3">נדל״ן בירושלים</div>
+                <div class="presentation-tab" data-target="presentation-4">תכנון אסטרטגי</div>
+            </div>
+        </section>
+        <section class="cta-section">
+            <h2>רוצה מצגת שתייצר תוצאות אמיתיות?</h2>
+            <p>קבל דוגמה מותאמת אישית לעסק שלך, ללא עלות.</p>
+            <button class="cta-button" id="open-modal-btn">בקש דוגמה אישית</button>
+        </section>
+    </main>
+    <footer>
+        <a href="https://www.instagram.com/revoltmediagency" class="instagram-pill" target="_blank">
+            <svg class="instagram-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                    fill="white" />
+            </svg>
+            <span>@revoltmediagency</span>
+        </a>
+        <p>&copy; 2025 Revolt Media. כל הזכויות שמורות.</p>
+    </footer>
+    <a href="https://wa.me/+972559840727" class="whatsapp-button" id="whatsapp-btn" target="_blank">
+        <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0C5.463 0 0.102 5.361 0.099 11.944C0.098 14.047 0.645 16.096 1.675 17.903L0 24l6.242-1.637C7.977 23.31 9.822 23.783 11.893 23.783H11.9C18.479 23.783 23.841 18.42 23.844 11.838C23.846 8.713 22.641 5.781 20.52 3.449ZM12.042 21.785H12.037C10.214 21.784 8.429 21.233 6.903 20.203L6.541 19.989L2.826 20.945L3.801 17.337L3.567 16.957C2.441 15.373 1.84 13.504 1.841 11.572C1.844 6.48 6.205 2.119 12.05 2.119C14.704 2.12 17.203 3.166 19.044 5.007C20.886 6.849 21.929 9.35 21.928 12.007C21.924 17.1 17.562 21.785 12.042 21.785ZM17.6 14.412C17.306 14.263 15.831 13.541 15.56 13.441C15.289 13.342 15.089 13.293 14.889 13.588C14.69 13.883 14.116 14.557 13.941 14.756C13.765 14.956 13.59 14.981 13.297 14.832C13.004 14.684 12.026 14.355 10.878 13.343C9.989 12.551 9.387 11.569 9.211 11.274C9.036 10.979 9.192 10.816 9.342 10.666C9.478 10.531 9.644 10.314 9.794 10.139C9.944 9.964 9.993 9.84 10.093 9.64C10.193 9.441 10.143 9.266 10.069 9.117C9.994 8.969 9.396 7.492 9.146 6.902C8.904 6.328 8.659 6.407 8.475 6.399C8.3 6.39 8.1 6.39 7.9 6.39C7.7 6.39 7.38 6.464 7.108 6.759C6.837 7.055 6.067 7.777 6.067 9.254C6.067 10.731 7.134 12.159 7.284 12.358C7.433 12.558 9.384 15.596 12.391 16.87C13.166 17.209 13.772 17.41 14.244 17.562C15.023 17.811 15.731 17.777 16.291 17.701C16.916 17.615 18.104 16.977 18.355 16.286C18.605 15.596 18.605 15.007 18.53 14.882C18.456 14.757 18.256 14.682 17.962 14.533C17.669 14.383 17.894 14.561 17.6 14.412Z"
+                fill="white" />
+        </svg>
+    </a>
+    <div class="modal" id="contact-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal-btn">&times;</button>
+            <h3 class="modal-title">Demander un exemple de présentation</h3>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Nom</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Téléphone (avec indicatif israélien)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+972 xxxxxxxx" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message"
+                        placeholder="Décrivez brièvement votre entreprise et vos besoins"></textarea>
+                </div>
+                <button type="submit">Envoyer ma demande</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour charger le logo
+        function loadLogo(src) {
+            const logo = document.getElementById('logo');
+            logo.src = src;
+            logo.onerror = function () {
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiPjx0ZXh0IHg9IjIwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSI+UmV2b2x0LiBNRURJQTwvdGV4dD48L3N2Zz4=';
+            };
+        }
+        // Navigation entre les présentations
+        document.querySelectorAll('.presentation-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.presentation-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.presentation-slide').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(this.dataset.target).classList.add('active');
+            });
+        });
+        // Configuration Tally
+        const tallyFormId = 'wQXAg1'; // À remplacer
+
+        document.getElementById('open-modal-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            Tally.openPopup(tallyFormId, {
+                layout: 'modal',
+                width: 700,
+                overlay: true,
+                hideTitle: true,
+                autoClose: 2000
+            });
+        });
+
+        // ... reste du JavaScript existant (logo, navigation, etc) ...
+        // // Modal ouverture/fermeture
+        // const modal = document.getElementById('contact-modal');
+        // document.getElementById('open-modal-btn').onclick = () => {
+        //     modal.classList.add('show');
+        // };
+        // document.getElementById('close-modal-btn').onclick = () => {
+        //     modal.classList.remove('show');
+        // };
+        // modal.addEventListener('click', function (e) {
+        //     if (e.target === modal) {
+        //         modal.classList.remove('show');
+        //     }
+        // });
+        // // Empêcher le scroll du body quand le modal est ouvert
+        // const observer = new MutationObserver(() => {
+        //     if (modal.classList.contains('show')) {
+        //         document.body.style.overflow = 'hidden';
+        //     } else {
+        //         document.body.style.overflow = '';
+        //     }
+        // });
+        // observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
+        // // Gestion du formulaire
+        // document.getElementById('contact-form').addEventListener('submit', function (e) {
+        //     e.preventDefault();
+        //     alert('Merci pour votre demande ! Nous vous contacterons rapidement.');
+        //     modal.classList.remove('show');
+        //     this.reset();
+        // });
+        // loadLogo('logo-revoltmedia.png');
+    </script>
+</body>
+
+</html>
