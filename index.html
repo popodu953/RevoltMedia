@@ -80,11 +80,104 @@
             z-index: 2;
         }
 
-        .intro {
+        /* .intro {
             text-align: center;
             margin-bottom: 3rem;
             animation: fadeIn 1s ease-in;
+        } */
+
+        .intro {
+            text-align: center;
+            direction: rtl;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
         }
+
+        .main-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff3c00, #ff008c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+
+        .pain-point {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .value-proposition {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+
+        .value-proposition p {
+            margin-bottom: 1rem;
+        }
+
+        .value-proposition strong {
+            color: #ff3c00;
+            font-weight: 600;
+        }
+
+        .benefits {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .benefits li {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .benefits li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 60, 0, 0.2);
+        }
+
+        .social-proof {
+            font-size: 1.25rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .pain-point {
+                font-size: 1.2rem;
+            }
+
+            .benefits {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .value-proposition,
+            .social-proof {
+                font-size: 1.1rem;
+            }
+        }
+
 
         @keyframes fadeIn {
             from {
@@ -593,10 +686,27 @@
     </header>
     <main>
         <section class="intro">
-            <h1>מצגות שמובילות לתוצאות מדהימות</h1>
-            <p class="tagline">המצגות המקצועיות שלנו מתוכננות לשבות את הקהל שלך ולהפוך לידים פוטנציאליים ללקוחות. גלה את
-                הגישה הייחודית שלנו.</p>
+            <h1 class="main-title">מצגות נדל"ן שסוגרות עסקאות במקום לאבד אותן</h1>
+
+            <p class="pain-point">כמה פרויקטים איכותיים איבדת בגלל מצגת לא מקצועית מספיק?</p>
+
+            <div class="value-proposition">
+                <p>אנחנו יוצרים עבורך מצגות נדל"ן מרהיבות <strong>תוך שעות בודדות</strong> - בדיוק כמו שהמשקיעים
+                    והלקוחות הגדולים שלך מצפים לראות.</p>
+
+                <p>המצגות שלנו הופכות נכסים רגילים להזדמנויות בלתי נשכחות, ומשיגות תוצאות שמדברות בעד עצמן:</p>
+
+                <ul class="benefits">
+                    <li>יותר פגישות</li>
+                    <li>יותר עניין</li>
+                    <li>יותר עסקאות סגורות</li>
+                </ul>
+            </div>
+
+            <p class="social-proof">גלה איך סוכנויות ויזמי נדל"ן מובילים כבר משתמשים במצגות שלנו כדי להתבלט מהמתחרים
+                ולהגדיל מכירות.</p>
         </section>
+
         <section class="presentation-container">
             <div class="presentation-slide active" id="presentation-1">
                 <h3 class="presentation-title">הזדמנות השקעה בנדל׳ן</h3>
@@ -612,9 +722,11 @@
 
             </div>
             <div class="presentation-slide" id="presentation-2">
-                <h3 class="presentation-title">ניתוח ביצועים מתקדם</h3>
-                <p class="presentation-description">ניתוח הנתונים שלנו מאפשר לך לקבל החלטות מושכלות לאופטימיזציה של
-                    התשואה על ההשקעה שלך. הצגנו נתונים מורכבים בצורה פשוטה ונגישה שכל אחד יכול להבין.</p>
+                <h3 class="presentation-title">Résidence Horizon: Luxury Oceanfront Living</h3>
+                <p class="presentation-description">מצגת זו מציגה את פרויקט "רזידנס הורייזון" - דירות יוקרה עם נוף לים.
+                    נסקור את מיקום הפרויקט הייחודי, תכנון אדריכלי עטור פרסים, מפרט טכני ברמה גבוהה, אפשרויות עיצוב פנים,
+                    מחירים והערכת תשואה למשקיעים. הזדמנות נדירה לרכוש נכס יוקרתי בקו ראשון לים עם פוטנציאל להשבחת ערך
+                    משמעותית.</p>
                 <div class="iframe-container">
                     <iframe src="https://gamma.app/embed/260exjsjdwhm7lu" class="responsive-iframe" allowfullscreen
                         allow="fullscreen" title="Résidence Horizon: Luxury Oceanfront Living">
@@ -623,8 +735,9 @@
             </div>
             <div class="presentation-slide" id="presentation-3">
                 <h3 class="presentation-title">הזדמנות השקעה בירושלים: דירת בוטיק למכירה</h3>
-                <p class="presentation-description">פרזנטציה מושלמת לנכסי נדל״ן יוקרתיים, עם דגש על הדמיות מרשימות
-                    ופירוט מדויק של יתרונות ההשקעה. מיועדת למשקיעים ורוכשים פוטנציאליים.</p>
+                <p class="presentation-description">פמצגת זו מציגה הזדמנות השקעה ייחודית בלב ירושלים. נציג דירת בוטיק
+                    מעוצבת במיקום אסטרטגי, ניתוח השוק באזור, פוטנציאל השכרה לטווח קצר וארוך, אפשרויות שיפוץ והשבחה,
+                    תחזית לעליית ערך הנכס, והיבטים פיננסיים של העסקה. הזדמנות מיוחדת לרכישת נכס ייחודי בעיר הקדושה.</p>
                 <div class="iframe-container">
                     <iframe src="https://gamma.app/embed/7hq9cel8rxlj20l" class="responsive-iframe" allowfullscreen
                         allow="fullscreen" title="הזדמנות השקעה בירושלים: דירת בוטיק למכירה">
@@ -632,9 +745,11 @@
                 </div>
             </div>
             <div class="presentation-slide" id="presentation-4">
-                <h3 class="presentation-title">תכנון אסטרטגי לפרויקטים בנדל״ן</h3>
-                <p class="presentation-description">העיצובים המרהיבים והמסרים המשכנעים שלנו מבדילים אותך מהמתחרים
-                    ומחזקים את תדמית המותג שלך. מצגת זו אידיאלית ליזמים ומשקיעים בתחום הנדל״ן.</p>
+                <h3 class="presentation-title">Strategic Real Estate Development Planning</h3>
+                <p class="presentation-description">המצגת זו מציגה תכנית אסטרטגית לפיתוח נדל״ן. נסקור שיטות לאיתור
+                    הזדמנויות בשוק, ניתוח כדאיות כלכלית, אסטרטגיות מימון, תהליכי תכנון ורישוי, ניהול סיכונים, לוחות
+                    זמנים לביצוע, ותחזיות תשואה. מיועד ליזמים ומשקיעים המעוניינים להבין את התהליך השלם של פיתוח פרויקטים
+                    נדל״ניים מוצלחים.</p>
                 <div class="iframe-container">
                     <iframe src="https://gamma.app/embed/visb9yu54t5tkrf" class="responsive-iframe" allowfullscreen
                         allow="fullscreen" title="Strategic Real Estate Development Planning">
@@ -643,8 +758,8 @@
             </div>
             <div class="presentation-nav">
                 <div class="presentation-tab active" data-target="presentation-1">הזדמנות השקעה בנדל׳ן</div>
-                <div class="presentation-tab" data-target="presentation-2">ניתוח ביצועים</div>
-                <div class="presentation-tab" data-target="presentation-3">נדל״ן בירושלים</div>
+                <div class="presentation-tab" data-target="presentation-2">אופק יוקרתי</div>
+                <div class="presentation-tab" data-target="presentation-3">הזדמנות ירושלמית</div>
                 <div class="presentation-tab" data-target="presentation-4">תכנון אסטרטגי</div>
             </div>
         </section>
@@ -665,7 +780,7 @@
         </a>
         <p>&copy; 2025 Revolt Media. כל הזכויות שמורות.</p>
     </footer>
-    <a href="https://wa.me/+972559840727" class="whatsapp-button" id="whatsapp-btn" target="_blank">
+    <a href="https://wa.me/559840727" class="whatsapp-button" id="whatsapp-btn" target="_blank">
         <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0C5.463 0 0.102 5.361 0.099 11.944C0.098 14.047 0.645 16.096 1.675 17.903L0 24l6.242-1.637C7.977 23.31 9.822 23.783 11.893 23.783H11.9C18.479 23.783 23.841 18.42 23.844 11.838C23.846 8.713 22.641 5.781 20.52 3.449ZM12.042 21.785H12.037C10.214 21.784 8.429 21.233 6.903 20.203L6.541 19.989L2.826 20.945L3.801 17.337L3.567 16.957C2.441 15.373 1.84 13.504 1.841 11.572C1.844 6.48 6.205 2.119 12.05 2.119C14.704 2.12 17.203 3.166 19.044 5.007C20.886 6.849 21.929 9.35 21.928 12.007C21.924 17.1 17.562 21.785 12.042 21.785ZM17.6 14.412C17.306 14.263 15.831 13.541 15.56 13.441C15.289 13.342 15.089 13.293 14.889 13.588C14.69 13.883 14.116 14.557 13.941 14.756C13.765 14.956 13.59 14.981 13.297 14.832C13.004 14.684 12.026 14.355 10.878 13.343C9.989 12.551 9.387 11.569 9.211 11.274C9.036 10.979 9.192 10.816 9.342 10.666C9.478 10.531 9.644 10.314 9.794 10.139C9.944 9.964 9.993 9.84 10.093 9.64C10.193 9.441 10.143 9.266 10.069 9.117C9.994 8.969 9.396 7.492 9.146 6.902C8.904 6.328 8.659 6.407 8.475 6.399C8.3 6.39 8.1 6.39 7.9 6.39C7.7 6.39 7.38 6.464 7.108 6.759C6.837 7.055 6.067 7.777 6.067 9.254C6.067 10.731 7.134 12.159 7.284 12.358C7.433 12.558 9.384 15.596 12.391 16.87C13.166 17.209 13.772 17.41 14.244 17.562C15.023 17.811 15.731 17.777 16.291 17.701C16.916 17.615 18.104 16.977 18.355 16.286C18.605 15.596 18.605 15.007 18.53 14.882C18.456 14.757 18.256 14.682 17.962 14.533C17.669 14.383 17.894 14.561 17.6 14.412Z"
