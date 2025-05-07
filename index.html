@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Revolt Media - מצגות מקצועיות</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
@@ -15,15 +15,23 @@
             font-family: 'Heebo', sans-serif;
         }
 
-        body {
+        html {
+            height: 100%;
             background: linear-gradient(135deg, #8b0024, #1a0033, #001b54);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
+            /* background-attachment: fixed; /* Optionnel, peut aider pour le full screen bg */
+        }
+
+        body {
             color: white;
-            min-height: 100vh;
+            min-height: 100svh; /* Smallest viewport height */
             position: relative;
             overflow-x: hidden;
             text-align: right;
+            background: linear-gradient(135deg, #8b0024, #1a0033, #001b54); /* Fallback / main */
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
 
         @keyframes gradientBG {
@@ -52,7 +60,7 @@
         }
 
         header {
-            padding: 1rem;
+            padding: 0.5rem 1rem; /* Réduction du padding vertical */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -61,10 +69,9 @@
         }
 
         .logo {
-            width: 300px;
+            width: 180px; /* Taille réduite pour desktop */
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
             transition: all 0.3s ease;
-            margin-bottom: 0;
         }
 
         .logo:hover {
@@ -75,23 +82,17 @@
         main {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem 2rem;
+            padding: 0 1.5rem 2rem; /* Ajusté pour cohérence avec intro et mobile */
             position: relative;
             z-index: 2;
         }
-
-        /* .intro {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeIn 1s ease-in;
-        } */
 
         .intro {
             text-align: center;
             direction: rtl;
             max-width: 900px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
+            padding: 1rem 1.5rem 2rem; /* padding-top réduit */
         }
 
         .main-title {
@@ -129,10 +130,11 @@
         .benefits {
             display: flex;
             justify-content: space-around;
-            align-items: center;
+            align-items: stretch; /* Pour que les items aient la même hauteur si wrap */
             margin: 2rem 0;
             padding: 0;
             list-style: none;
+            gap: 1rem; /* Espace entre les benefits sur desktop */
         }
 
         .benefits li {
@@ -144,6 +146,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            flex: 1; /* Pour qu'ils prennent une largeur équivalente sur desktop */
         }
 
         .benefits li:hover {
@@ -158,27 +161,6 @@
             margin-top: 2rem;
         }
 
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2rem;
-            }
-
-            .pain-point {
-                font-size: 1.2rem;
-            }
-
-            .benefits {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .value-proposition,
-            .social-proof {
-                font-size: 1.1rem;
-            }
-        }
-
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -190,13 +172,7 @@
                 transform: translateY(0);
             }
         }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            letter-spacing: 0;
-        }
+        /* Styles H1 génériques retirés pour éviter conflit avec .main-title */
 
         .tagline {
             font-size: 1.2rem;
@@ -207,7 +183,7 @@
         }
 
         .presentation-container {
-            margin: 4rem 0;
+            margin: 2rem 0; /* margin-top réduit */
             background: rgba(255, 255, 255, 0.03);
             border-radius: 15px;
             padding: 2rem;
@@ -222,7 +198,6 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
-        /* Par défaut, ratio 16:9 pour PC */
         .iframe-container {
             position: relative;
             width: 100%;
@@ -235,14 +210,6 @@
             overflow: hidden;
         }
 
-        /* Sur mobile, ratio 4:3 */
-        @media (max-width: 700px) {
-            .iframe-container {
-                padding-top: 75%;
-                /* 4:3 pour mobile */
-            }
-        }
-
         .responsive-iframe {
             position: absolute;
             top: 0;
@@ -251,8 +218,6 @@
             height: 100%;
             border: none;
         }
-
-
 
         .presentation-nav {
             display: flex;
@@ -427,7 +392,7 @@
         .close-modal {
             position: absolute;
             top: 15px;
-            left: 15px;
+            left: 15px; /* Maintenu tel quel, pour RTL il sera à droite visuellement */
             font-size: 1.5rem;
             color: rgba(255, 255, 255, 0.7);
             background: none;
@@ -543,11 +508,37 @@
             height: 20px;
         }
 
+        /* --- Media Queries --- */
         @media (max-width: 768px) {
-            h1 {
+            .main-title {
                 font-size: 2rem;
             }
 
+            .pain-point {
+                font-size: 1.2rem;
+            }
+
+            .benefits {
+                flex-direction: row; /* Côte à côte */
+                flex-wrap: wrap;     /* Permettre le retour à la ligne */
+                justify-content: center; /* Centrer les items */
+                gap: 0.5rem;         /* Espace réduit */
+            }
+
+            .benefits li {
+                padding: 0.6rem 1rem; /* Padding réduit */
+                font-size: 0.85rem;   /* Taille de police réduite */
+                flex-grow: 0;         /* Ne pas grandir pour remplir l'espace */
+                flex-basis: auto;     /* Taille basée sur le contenu */
+                min-width: 100px;     /* Largeur minimale pour éviter qu'ils soient trop petits */
+            }
+
+            .value-proposition,
+            .social-proof {
+                font-size: 1.1rem;
+            }
+            
+            /* Autres ajustements responsives */
             .cta-section {
                 padding: 2rem 1rem;
             }
@@ -562,7 +553,7 @@
             }
 
             main {
-                padding: 0 1.5rem 1.5rem;
+                padding: 0 1rem 1.5rem; /* Ajusté pour mobile */
             }
 
             .presentation-container {
@@ -577,10 +568,19 @@
             }
         }
 
+        @media (max-width: 700px) { /* Spécifique pour l'iframe sur mobile */
+            .iframe-container {
+                padding-top: 75%; /* 4:3 pour mobile */
+            }
+        }
+
         @media (max-width: 480px) {
-            h1 {
-                font-size: 1.7rem;
+            .main-title { /* Hérite de 768px ou peut être spécifié */
+                font-size: 1.8rem; /* Encore plus petit si besoin */
                 padding: 0 0.5rem;
+            }
+            .pain-point {
+                 font-size: 1.1rem;
             }
 
             .tagline {
@@ -589,7 +589,7 @@
             }
 
             .logo {
-                width: 200px;
+                width: 140px; /* Taille réduite pour petit mobile */
             }
 
             .whatsapp-button {
@@ -616,7 +616,7 @@
 
             .presentation-container {
                 padding: 1rem;
-                margin: 2rem 0;
+                margin: 1.5rem 0; /* margin-top réduit pour mobile */
             }
 
             .presentation-nav {
@@ -653,11 +653,9 @@
                 margin-bottom: 1.5rem;
             }
 
-            .iframe-container {
-                padding-bottom: 70%;
-            }
+            /* .iframe-container est déjà géré par @media (max-width: 700px) */
 
-            /* Personnalisation du popup Tally */
+            /* Personnalisation du popup Tally (si vous l'utilisez toujours) */
             .tally-embed-modal {
                 backdrop-filter: blur(5px) !important;
             }
@@ -672,7 +670,6 @@
                 font-family: 'Heebo', sans-serif !important;
                 color: #fff !important;
             }
-
         }
     </style>
 
@@ -687,22 +684,17 @@
     <main>
         <section class="intro">
             <h1 class="main-title">מצגות נדל"ן שסוגרות עסקאות במקום לאבד אותן</h1>
-
             <p class="pain-point">כמה פרויקטים איכותיים איבדת בגלל מצגת לא מקצועית מספיק?</p>
-
             <div class="value-proposition">
                 <p>אנחנו יוצרים עבורך מצגות נדל"ן מרהיבות <strong>תוך שעות בודדות</strong> - בדיוק כמו שהמשקיעים
                     והלקוחות הגדולים שלך מצפים לראות.</p>
-
                 <p>המצגות שלנו הופכות נכסים רגילים להזדמנויות בלתי נשכחות, ומשיגות תוצאות שמדברות בעד עצמן:</p>
-
                 <ul class="benefits">
                     <li>יותר פגישות</li>
                     <li>יותר עניין</li>
                     <li>יותר עסקאות סגורות</li>
                 </ul>
             </div>
-
             <p class="social-proof">גלה איך סוכנויות ויזמי נדל"ן מובילים כבר משתמשים במצגות שלנו כדי להתבלט מהמתחרים
                 ולהגדיל מכירות.</p>
         </section>
@@ -719,7 +711,6 @@
                         allow="fullscreen" title="הזדמנות השקעה בנדל&quot;ן יוקרתי בתל אביב">
                     </iframe>
                 </div>
-
             </div>
             <div class="presentation-slide" id="presentation-2">
                 <h3 class="presentation-title">Résidence Horizon: Luxury Oceanfront Living</h3>
@@ -787,6 +778,8 @@
                 fill="white" />
         </svg>
     </a>
+    
+    <!-- Si vous réutilisez le modal HTML personnalisé -->
     <div class="modal" id="contact-modal">
         <div class="modal-content">
             <button class="close-modal" id="close-modal-btn">&times;</button>
@@ -801,15 +794,15 @@
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Téléphone (avec indicatif israélien)</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+972 xxxxxxxx" required>
+                    <label for="phone">טלפון (עם קידומת ישראלית)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="05x-xxxxxxx" required pattern="^0[2-9]\d{7,8}$|^05\d{8}$">
                 </div>
                 <div class="form-group">
-                    <label for="message">Message</label>
+                    <label for="message">הודעה</label>
                     <textarea id="message" name="message"
-                        placeholder="Décrivez brièvement votre entreprise et vos besoins"></textarea>
+                        placeholder="תאר בקצרה את העסק שלך ואת הצרכים שלך"></textarea>
                 </div>
-                <button type="submit">Envoyer ma demande</button>
+                <button type="submit">שלח את בקשתי</button>
             </form>
         </div>
     </div>
@@ -818,66 +811,82 @@
         // Fonction pour charger le logo
         function loadLogo(src) {
             const logo = document.getElementById('logo');
-            logo.src = src;
-            logo.onerror = function () {
-                this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiPjx0ZXh0IHg9IjIwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSI+UmV2b2x0LiBNRURJQTwvdGV4dD48L3N2Zz4=';
-            };
+            if (logo) {
+                logo.src = src;
+                logo.onerror = function () {
+                    this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiPjx0ZXh0IHg9IjIwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSI+UmV2b2x0LiBNRURJQTwvdGV4dD48L3N2Zz4=';
+                };
+            }
         }
+        loadLogo('logo-revoltmedia.png'); // Assurez-vous que ce fichier existe ou changez le nom
+
         // Navigation entre les présentations
         document.querySelectorAll('.presentation-tab').forEach(tab => {
             tab.addEventListener('click', function () {
                 document.querySelectorAll('.presentation-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.presentation-slide').forEach(s => s.classList.remove('active'));
                 this.classList.add('active');
-                document.getElementById(this.dataset.target).classList.add('active');
+                const targetSlide = document.getElementById(this.dataset.target);
+                if (targetSlide) {
+                    targetSlide.classList.add('active');
+                }
             });
         });
-        // Configuration Tally
-        const tallyFormId = 'wQXAg1'; // À remplacer
+        
+        // Gestion du modal personnalisé (si vous l'utilisez à la place de Tally)
+        const openModalButton = document.getElementById('open-modal-btn');
+        const contactModal = document.getElementById('contact-modal');
+        const closeModalButton = document.getElementById('close-modal-btn');
+        const contactForm = document.getElementById('contact-form');
 
-        document.getElementById('open-modal-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            Tally.openPopup(tallyFormId, {
-                layout: 'modal',
-                width: 700,
-                overlay: true,
-                hideTitle: true,
-                autoClose: 2000
+        if (openModalButton && contactModal && closeModalButton && contactForm) {
+            openModalButton.onclick = () => {
+                contactModal.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Empêcher le scroll du body
+            };
+            closeModalButton.onclick = () => {
+                contactModal.classList.remove('show');
+                document.body.style.overflow = ''; // Rétablir le scroll du body
+            };
+            contactModal.addEventListener('click', function (e) {
+                if (e.target === contactModal) {
+                    contactModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
             });
-        });
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                // Ici, vous pouvez ajouter la logique pour envoyer les données du formulaire
+                // par exemple avec fetch() vers votre backend ou un service comme Formspree/Netlify Forms
+                alert('תודה על פנייתך! ניצור איתך קשר בהקדם.');
+                contactModal.classList.remove('show');
+                document.body.style.overflow = '';
+                this.reset();
+            });
+        }
 
-        // ... reste du JavaScript existant (logo, navigation, etc) ...
-        // // Modal ouverture/fermeture
-        // const modal = document.getElementById('contact-modal');
-        // document.getElementById('open-modal-btn').onclick = () => {
-        //     modal.classList.add('show');
-        // };
-        // document.getElementById('close-modal-btn').onclick = () => {
-        //     modal.classList.remove('show');
-        // };
-        // modal.addEventListener('click', function (e) {
-        //     if (e.target === modal) {
-        //         modal.classList.remove('show');
-        //     }
-        // });
-        // // Empêcher le scroll du body quand le modal est ouvert
-        // const observer = new MutationObserver(() => {
-        //     if (modal.classList.contains('show')) {
-        //         document.body.style.overflow = 'hidden';
-        //     } else {
-        //         document.body.style.overflow = '';
-        //     }
-        // });
-        // observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
-        // // Gestion du formulaire
-        // document.getElementById('contact-form').addEventListener('submit', function (e) {
-        //     e.preventDefault();
-        //     alert('Merci pour votre demande ! Nous vous contacterons rapidement.');
-        //     modal.classList.remove('show');
-        //     this.reset();
-        // });
-        // loadLogo('logo-revoltmedia.png');
+
+        // Configuration Tally (si vous l'utilisez)
+        // const tallyFormId = 'wQXAg1'; 
+        // const openTallyButton = document.getElementById('open-modal-btn'); // Réutiliser le même bouton
+        // if (openTallyButton) {
+        //    openTallyButton.addEventListener('click', (e) => {
+        //        e.preventDefault();
+        //        if (typeof Tally !== 'undefined') {
+        //            Tally.openPopup(tallyFormId, {
+        //                layout: 'modal',
+        //                width: 700, // ou une autre largeur adaptée
+        //                overlay: true,
+        //                hideTitle: true, // Cache le titre du formulaire Tally si vous en avez un dans le modal
+        //                // autoClose: 2000 // Optionnel : ferme après X ms
+        //                onOpen: () => { document.body.style.overflow = 'hidden'; },
+        //                onClose: () => { document.body.style.overflow = ''; }
+        //            });
+        //        } else {
+        //            console.error("Tally script not loaded");
+        //        }
+        //    });
+        // }
     </script>
 </body>
-
 </html>
