@@ -20,7 +20,7 @@
             background: linear-gradient(135deg, #8b0024, #1a0033, #001b54);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            /* background-attachment: fixed; /* Optionnel, peut aider pour le full screen bg */
+            background-attachment: fixed; /* Optionnel, peut aider pour le full screen bg */
         }
 
         body {
@@ -60,7 +60,7 @@
         }
 
         header {
-            padding: 0.5rem 1rem; /* Réduction du padding vertical */
+            padding: 0.2rem 1rem; /* Réduction du padding vertical */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -92,7 +92,7 @@
             direction: rtl;
             max-width: 900px;
             margin: 0 auto;
-            padding: 1rem 1.5rem 2rem; /* padding-top réduit */
+            padding: 0.5rem 1.5rem 1rem; /* Actuellement 1rem 1.5rem 2rem */
         }
 
         .main-title {
@@ -833,60 +833,60 @@
             });
         });
         
-        // Gestion du modal personnalisé (si vous l'utilisez à la place de Tally)
-        const openModalButton = document.getElementById('open-modal-btn');
-        const contactModal = document.getElementById('contact-modal');
-        const closeModalButton = document.getElementById('close-modal-btn');
-        const contactForm = document.getElementById('contact-form');
+        // // Gestion du modal personnalisé (si vous l'utilisez à la place de Tally)
+        // const openModalButton = document.getElementById('open-modal-btn');
+        // const contactModal = document.getElementById('contact-modal');
+        // const closeModalButton = document.getElementById('close-modal-btn');
+        // const contactForm = document.getElementById('contact-form');
 
-        if (openModalButton && contactModal && closeModalButton && contactForm) {
-            openModalButton.onclick = () => {
-                contactModal.classList.add('show');
-                document.body.style.overflow = 'hidden'; // Empêcher le scroll du body
-            };
-            closeModalButton.onclick = () => {
-                contactModal.classList.remove('show');
-                document.body.style.overflow = ''; // Rétablir le scroll du body
-            };
-            contactModal.addEventListener('click', function (e) {
-                if (e.target === contactModal) {
-                    contactModal.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-            });
-            contactForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                // Ici, vous pouvez ajouter la logique pour envoyer les données du formulaire
-                // par exemple avec fetch() vers votre backend ou un service comme Formspree/Netlify Forms
-                alert('תודה על פנייתך! ניצור איתך קשר בהקדם.');
-                contactModal.classList.remove('show');
-                document.body.style.overflow = '';
-                this.reset();
-            });
-        }
+        // if (openModalButton && contactModal && closeModalButton && contactForm) {
+        //     openModalButton.onclick = () => {
+        //         contactModal.classList.add('show');
+        //         document.body.style.overflow = 'hidden'; // Empêcher le scroll du body
+        //     };
+        //     closeModalButton.onclick = () => {
+        //         contactModal.classList.remove('show');
+        //         document.body.style.overflow = ''; // Rétablir le scroll du body
+        //     };
+        //     contactModal.addEventListener('click', function (e) {
+        //         if (e.target === contactModal) {
+        //             contactModal.classList.remove('show');
+        //             document.body.style.overflow = '';
+        //         }
+        //     });
+        //     contactForm.addEventListener('submit', function (e) {
+        //         e.preventDefault();
+        //         // Ici, vous pouvez ajouter la logique pour envoyer les données du formulaire
+        //         // par exemple avec fetch() vers votre backend ou un service comme Formspree/Netlify Forms
+        //         alert('תודה על פנייתך! ניצור איתך קשר בהקדם.');
+        //         contactModal.classList.remove('show');
+        //         document.body.style.overflow = '';
+        //         this.reset();
+        //     });
+        // }
 
 
         // Configuration Tally (si vous l'utilisez)
-        // const tallyFormId = 'wQXAg1'; 
-        // const openTallyButton = document.getElementById('open-modal-btn'); // Réutiliser le même bouton
-        // if (openTallyButton) {
-        //    openTallyButton.addEventListener('click', (e) => {
-        //        e.preventDefault();
-        //        if (typeof Tally !== 'undefined') {
-        //            Tally.openPopup(tallyFormId, {
-        //                layout: 'modal',
-        //                width: 700, // ou une autre largeur adaptée
-        //                overlay: true,
-        //                hideTitle: true, // Cache le titre du formulaire Tally si vous en avez un dans le modal
-        //                // autoClose: 2000 // Optionnel : ferme après X ms
-        //                onOpen: () => { document.body.style.overflow = 'hidden'; },
-        //                onClose: () => { document.body.style.overflow = ''; }
-        //            });
-        //        } else {
-        //            console.error("Tally script not loaded");
-        //        }
-        //    });
-        // }
+        const tallyFormId = 'wQXAg1'; 
+        const openTallyButton = document.getElementById('open-modal-btn'); // Réutiliser le même bouton
+        if (openTallyButton) {
+           openTallyButton.addEventListener('click', (e) => {
+               e.preventDefault();
+               if (typeof Tally !== 'undefined') {
+                   Tally.openPopup(tallyFormId, {
+                       layout: 'modal',
+                       width: 700, // ou une autre largeur adaptée
+                       overlay: true,
+                       hideTitle: true, // Cache le titre du formulaire Tally si vous en avez un dans le modal
+                       // autoClose: 2000 // Optionnel : ferme après X ms
+                       onOpen: () => { document.body.style.overflow = 'hidden'; },
+                       onClose: () => { document.body.style.overflow = ''; }
+                   });
+               } else {
+                   console.error("Tally script not loaded");
+               }
+           });
+        }
     </script>
 </body>
 </html>
