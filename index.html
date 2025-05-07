@@ -808,85 +808,130 @@
     </div>
 
     <script>
-        // Fonction pour charger le logo
-        function loadLogo(src) {
-            const logo = document.getElementById('logo');
-            if (logo) {
-                logo.src = src;
-                logo.onerror = function () {
-                    this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiPjx0ZXh0IHg9IjIwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSI+UmV2b2x0LiBNRURJQTwvdGV4dD48L3N2Zz4=';
-                };
-            }
+    // Fonction pour charger le logo
+    function loadLogo(src) {
+        const logo = document.getElementById('logo');
+        if (logo) {
+            logo.src = src;
+            logo.onerror = function () {
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiPjx0ZXh0IHg9IjIwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSI+UmV2b2x0LiBNRURJQTwvdGV4dD48L3N2Zz4=';
+            };
         }
+    }
+
+    // AJOUT : Fonction pour "réveiller" l'iframe et potentiellement fixer le scroll
+    function initializeIframeScroll(iframeElement) {
+        if (iframeElement) {
+            // Méthode 1: Modifier brièvement une propriété de style pour forcer un reflow.
+            const originalOpacity = iframeElement.style.opacity;
+            iframeElement.style.opacity = '0.999';
+            
+            window.getComputedStyle(iframeElement).opacity; 
+            
+            iframeElement.style.opacity = originalOpacity || '';
+
+            // Méthode 2 (alternative, si la 1 ne suffit pas): Recharger le src de l'iframe.
+            // setTimeout(() => { 
+            //    const currentSrc = iframeElement.src;
+            //    if (currentSrc && currentSrc !== 'about:blank') { // Éviter de recharger un src vide
+            //        iframeElement.src = 'about:blank'; // Forcer une "réinitialisation"
+            //        setTimeout(() => { iframeElement.src = currentSrc; }, 10); // Puis recharger l'original
+            //    }
+            // }, 50);
+        }
+    }
+
+    // Exécution au chargement du DOM
+    document.addEventListener('DOMContentLoaded', () => {
         loadLogo('logo-revoltmedia.png'); // Assurez-vous que ce fichier existe ou changez le nom
 
-        // Navigation entre les présentations
-        document.querySelectorAll('.presentation-tab').forEach(tab => {
-            tab.addEventListener('click', function () {
-                document.querySelectorAll('.presentation-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.presentation-slide').forEach(s => s.classList.remove('active'));
-                this.classList.add('active');
-                const targetSlide = document.getElementById(this.dataset.target);
-                if (targetSlide) {
-                    targetSlide.classList.add('active');
-                }
-            });
-        });
-        
-        // // Gestion du modal personnalisé (si vous l'utilisez à la place de Tally)
-        // const openModalButton = document.getElementById('open-modal-btn');
-        // const contactModal = document.getElementById('contact-modal');
-        // const closeModalButton = document.getElementById('close-modal-btn');
-        // const contactForm = document.getElementById('contact-form');
-
-        // if (openModalButton && contactModal && closeModalButton && contactForm) {
-        //     openModalButton.onclick = () => {
-        //         contactModal.classList.add('show');
-        //         document.body.style.overflow = 'hidden'; // Empêcher le scroll du body
-        //     };
-        //     closeModalButton.onclick = () => {
-        //         contactModal.classList.remove('show');
-        //         document.body.style.overflow = ''; // Rétablir le scroll du body
-        //     };
-        //     contactModal.addEventListener('click', function (e) {
-        //         if (e.target === contactModal) {
-        //             contactModal.classList.remove('show');
-        //             document.body.style.overflow = '';
-        //         }
-        //     });
-        //     contactForm.addEventListener('submit', function (e) {
-        //         e.preventDefault();
-        //         // Ici, vous pouvez ajouter la logique pour envoyer les données du formulaire
-        //         // par exemple avec fetch() vers votre backend ou un service comme Formspree/Netlify Forms
-        //         alert('תודה על פנייתך! ניצור איתך קשר בהקדם.');
-        //         contactModal.classList.remove('show');
-        //         document.body.style.overflow = '';
-        //         this.reset();
-        //     });
-        // }
-
-
-        // Configuration Tally (si vous l'utilisez)
-        const tallyFormId = 'wQXAg1'; 
-        const openTallyButton = document.getElementById('open-modal-btn'); // Réutiliser le même bouton
-        if (openTallyButton) {
-           openTallyButton.addEventListener('click', (e) => {
-               e.preventDefault();
-               if (typeof Tally !== 'undefined') {
-                   Tally.openPopup(tallyFormId, {
-                       layout: 'modal',
-                       width: 700, // ou une autre largeur adaptée
-                       overlay: true,
-                       hideTitle: true, // Cache le titre du formulaire Tally si vous en avez un dans le modal
-                       // autoClose: 2000 // Optionnel : ferme après X ms
-                       onOpen: () => { document.body.style.overflow = 'hidden'; },
-                       onClose: () => { document.body.style.overflow = ''; }
-                   });
-               } else {
-                   console.error("Tally script not loaded");
-               }
-           });
+        // AJOUT : Initialiser le scroll de l'iframe de la première slide active
+        const firstActiveSlide = document.querySelector('.presentation-slide.active');
+        if (firstActiveSlide) {
+            const iframe = firstActiveSlide.querySelector('.responsive-iframe');
+            // Attendre un peu que Gamma.app ait pu se charger à l'intérieur de l'iframe
+            setTimeout(() => {
+                initializeIframeScroll(iframe);
+            }, 800); // Délai en millisecondes, à ajuster si besoin (500-1000ms est courant)
         }
-    </script>
+    });
+
+
+    // Navigation entre les présentations
+    document.querySelectorAll('.presentation-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.presentation-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.presentation-slide').forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            const targetSlideId = this.dataset.target; // Récupérer l'ID
+            const newActiveSlide = document.getElementById(targetSlideId); // Cibler par ID
+            
+            if (newActiveSlide) {
+                newActiveSlide.classList.add('active');
+                // AJOUT : Initialiser le scroll de l'iframe de la nouvelle slide active
+                const iframe = newActiveSlide.querySelector('.responsive-iframe');
+                setTimeout(() => {
+                    initializeIframeScroll(iframe);
+                }, 150); // Délai plus court car la page est déjà chargée
+            }
+        });
+    });
+    
+    // // Gestion du modal personnalisé (si vous l'utilisez à la place de Tally)
+    // const openModalButton = document.getElementById('open-modal-btn');
+    // const contactModal = document.getElementById('contact-modal');
+    // const closeModalButton = document.getElementById('close-modal-btn');
+    // const contactForm = document.getElementById('contact-form');
+
+    // if (openModalButton && contactModal && closeModalButton && contactForm) {
+    //     openModalButton.onclick = () => {
+    //         contactModal.classList.add('show');
+    //         document.body.style.overflow = 'hidden'; // Empêcher le scroll du body
+    //     };
+    //     closeModalButton.onclick = () => {
+    //         contactModal.classList.remove('show');
+    //         document.body.style.overflow = ''; // Rétablir le scroll du body
+    //     };
+    //     contactModal.addEventListener('click', function (e) {
+    //         if (e.target === contactModal) {
+    //             contactModal.classList.remove('show');
+    //             document.body.style.overflow = '';
+    //         }
+    //     });
+    //     contactForm.addEventListener('submit', function (e) {
+    //         e.preventDefault();
+    //         // Ici, vous pouvez ajouter la logique pour envoyer les données du formulaire
+    //         // par exemple avec fetch() vers votre backend ou un service comme Formspree/Netlify Forms
+    //         alert('תודה על פנייתך! ניצור איתך קשר בהקדם.');
+    //         contactModal.classList.remove('show');
+    //         document.body.style.overflow = '';
+    //         this.reset();
+    //     });
+    // }
+
+
+    // Configuration Tally (si vous l'utilisez)
+    const tallyFormId = 'wQXAg1'; 
+    const openTallyButton = document.getElementById('open-modal-btn'); // Réutiliser le même bouton
+    if (openTallyButton) {
+       openTallyButton.addEventListener('click', (e) => {
+           e.preventDefault();
+           if (typeof Tally !== 'undefined') {
+               Tally.openPopup(tallyFormId, {
+                   layout: 'modal',
+                   width: 700, // ou une autre largeur adaptée
+                   overlay: true,
+                   hideTitle: true, // Cache le titre du formulaire Tally si vous en avez un dans le modal
+                   // autoClose: 2000 // Optionnel : ferme après X ms
+                   onOpen: () => { document.body.style.overflow = 'hidden'; },
+                   onClose: () => { document.body.style.overflow = ''; }
+               });
+           } else {
+               console.error("Tally script not loaded");
+           }
+       });
+    }
+</script>
+
 </body>
 </html>
